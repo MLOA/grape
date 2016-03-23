@@ -1,0 +1,39 @@
+body {
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+}
+
+header {
+	background-color: rgb(255,0,0);
+}
+
+div .box{
+	display: table-cell;
+}
+
+div #content {
+	float: none;
+}
+
+div #content-left {
+	background-color: pink;
+    display: inline-block;
+	width: 10%;
+}
+
+div #content-center {
+	background-color: cyan;
+    display: inline-block;
+	width: 60%;
+}
+
+div #content-right {
+	background-color: blue;
+    display: inline-block;
+	width: 10%;
+}
+
+footer {
+	background-color: magenta;
+}
