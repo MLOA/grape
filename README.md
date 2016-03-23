@@ -17,4 +17,4 @@ Grapeは人工知能による友達推薦機能を搭載した、ソーシャル
 
 ## Author
 
-[tcnksm](https://github.com/MLOA)
+[MLOA](https://github.com/MLOA)
