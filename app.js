@@ -10,6 +10,7 @@ var users = require('./routes/users');
 
 var hoge = require('./routes/hoge');
 
+
 var app = express();
 
 // view engine setup
