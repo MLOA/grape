@@ -17,7 +17,10 @@
 					<a href="index.html"><img src="./img/kotlin-logo.png" /></a>
 				</div>
 				<div id="search">
-					<input id="searchBox" placeholder="Search" type="search">
+					<div id="search-box">
+							<img id="search-box-img" src="./img/search.png"></img>
+							<input id="search-box-input" placeholder="Search" type="search">
+					</div>
 				</div>
 				<div id="buttons">
 					<div id="buttons-inner">
@@ -41,66 +44,76 @@
 			<div id="content-left" class="box"></div>
 
 			<div id="content-center" class="box">
+				<div id="post-box">
+					<a href="index.html"><img src="./img/kotlin.png" id="post-box-icon"/></a>
+					<textarea id="post-box-textarea" rows="1" cols="40">what's up</textarea>
+					<button id="post-button">
+						<img src="./img/submit.jpg"/>
+					</button>
+				</div>
 				
-				<article class="post">
-					<header class="post-header">
-						<a href="index.html"><img src="./img/kotlin.png" class="post-user-icon" /></a>
-						<a href="index.html">
-							<p class="post-user-name">User Name</p>
-						</a>
-						<p class="post-user-id">@user_id_2016</p>
-						<p class="post-time">2016-03-26 20:00:00</p>
-					</header>
-					<div class="post-content">
-						<p class="post-text">post-content</p>
-					</div>
-					<footer class="post-footer">
-						<div class="react-area">
-							<div class="react-box react-reply-box">
-								<img src="./img/reply.png" class="react-img react-reply-img"/>
-								<p class="react-reply-num">100</p>
-							</div>
-							<div class="react-box react-share-box">
-								<img src="./img/share.png" class="react-img react-share-img"/>
-								<p class="react-share-num">200</p>
-							</div>
-							<div class="react-box react-like-box">
-								<img src="./img/like.png" class="react-img react-like-img"/>
-								<p class="react-like-num">300</p>
-							</div>
-						</div>
-					</footer>
-				</article>
-				
-				<article class="post">
-					<header class="post-header">
-						<a href="index.html"><img src="./img/kotlin.png" class="post-user-icon" /></a>
-						<a href="index.html">
-							<p class="post-user-name">User Name</p>
-						</a>
-						<p class="post-user-id">@user_id_2016</p>
-					</header>
+				<div id="post-area">
 					
-					<div class="post-content">
-						<img src="./img/photo.jpg" class="post-picture"></img>
-					</div>
-						<footer class="post-footer">
-						<div class="react-area">
-							<div class="react-box react-reply-box">
-								<img src="./img/reply.png" class="react-img react-reply-img"/>
-								<p class="react-reply-num">100</p>
-							</div>
-							<div class="react-box react-share-box">
-								<img src="./img/share.png" class="react-img react-share-img"/>
-								<p class="react-share-num">200</p>
-							</div>
-							<div class="react-box react-like-box">
-								<img src="./img/like.png" class="react-img react-like-img"/>
-								<p class="react-like-num">300</p>
-							</div>
+					<article class="post">
+						<header class="post-header">
+							<a href="index.html"><img src="./img/kotlin.png" class="post-user-icon" /></a>
+							<a href="index.html">
+								<p class="post-user-name">User Name</p>
+							</a>
+							<p class="post-user-id">@user_id_2016</p>
+							<p class="post-time">2016-03-26 20:00:00</p>
+						</header>
+						<div class="post-content">
+							<p class="post-text">post-content</p>
 						</div>
-					</footer>
-				</article>
+						<footer class="post-footer">
+							<div class="react-area">
+								<div class="react-box react-reply-box">
+									<img src="./img/reply.png" class="react-img react-reply-img"/>
+									<p class="react-reply-num">100</p>
+								</div>
+								<div class="react-box react-share-box">
+									<img src="./img/share.png" class="react-img react-share-img"/>
+									<p class="react-share-num">200</p>
+								</div>
+								<div class="react-box react-like-box">
+									<img src="./img/like.png" class="react-img react-like-img"/>
+									<p class="react-like-num">300</p>
+								</div>
+							</div>
+						</footer>
+					</article>
+					
+					<article class="post">
+						<header class="post-header">
+							<a href="index.html"><img src="./img/kotlin.png" class="post-user-icon" /></a>
+							<a href="index.html">
+								<p class="post-user-name">User Name</p>
+							</a>
+							<p class="post-user-id">@user_id_2016</p>
+						</header>
+						
+						<div class="post-content">
+							<img src="./img/photo.jpg" class="post-picture"></img>
+						</div>
+							<footer class="post-footer">
+							<div class="react-area">
+								<div class="react-box react-reply-box">
+									<img src="./img/reply.png" class="react-img react-reply-img"/>
+									<p class="react-reply-num">100</p>
+								</div>
+								<div class="react-box react-share-box">
+									<img src="./img/share.png" class="react-img react-share-img"/>
+									<p class="react-share-num">200</p>
+								</div>
+								<div class="react-box react-like-box">
+									<img src="./img/like.png" class="react-img react-like-img"/>
+									<p class="react-like-num">300</p>
+								</div>
+							</div>
+						</footer>
+					</article>
+				</div>
 				
 			</div>
 
