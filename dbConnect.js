@@ -38,14 +38,18 @@ var User = mongoose.model('user', userSchema);
 var Post = mongoose.model('post', postSchema);
 
 
-var insertUser = new User();
-insertUser.user_id = "wakame";
-insertUser.screen_name = "yakiniku-waiwai";
-insertUser.attribute = ["sushi","niku","ddr"];
-insertUser.save(function(err){
-    if(err){
-        console.log(err);
-    } else{
-        console.log("insert success!!!!");
-    }
-});
+function insertTest1(){
+    var insertUser = new User();
+    insertUser.user_id = "konbu";
+    insertUser.screen_name = "korekaramainichi_iewo_yakouze";
+    insertUser.attribute = ["futon","sushi","minage","gaba"];
+    insertUser.save(function(err){
+        if(err){
+            console.log(err);
+        } else{
+            console.log("insert success!!!!");
+        }
+    });
+}
+
+insertTest1();

@@ -1,4 +1,5 @@
 var headerPos = 0, previous_scroll_pos = 0;
+var request = window.superagent;
 
 window.onload = function() {
     resize();
@@ -232,4 +233,23 @@ function heredoc(data,func){
     }
 
     return _doc;
+}
+
+function get(url){
+    request
+        .get(url)
+        .query({})
+        .end(function(err, res){
+            console.log(res.text);
+        });
+}
+
+function post(url){
+    request
+        .post(url)
+        .send({name: name, text: text})
+        .end(function(err, res){
+            console.log(res.body);
+            
+        });    
 }
