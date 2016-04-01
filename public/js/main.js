@@ -207,7 +207,7 @@ function debugColor(){
 }
 
 function heredoc(data,func){
-    var _data=null, _func=null;
+    var _data = null, _func = null;
 
     // 初期化
     if (typeof func === 'undefined') {
