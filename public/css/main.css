@@ -1,33 +1,29 @@
 /* whole content */
 
 body {
-	background-color: magenta;
 	margin: 0px;
 	padding: 0px;
-	font-family: Arial, Roboto, “Droid Sans”, “游ゴシック”, YuGothic, “ヒラギノ角ゴ ProN W3”, “Hiragino Kaku Gothic ProN”, “メイリオ”, Meiryo, sans-serif;
+    font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
 }
 
 
 /* header */
 
 #header {
-	background-color: rgb(255, 0, 0);
 	width: 100%;
 	height: 40px;
-	
     position: fixed;
     top: 0;
     z-index: 2;
-    
-	box-shadow:0px 0px 6px 4px #727272;
-	-moz-box-shadow:0px 0px 6px 4px #727272;
-	-webkit-box-shadow:0px 0px 6px 4px #727272;
+	/* http://www.bad-company.jp/box-shadow/ */
+	box-shadow:0px 0px 1px 2px #c8c8c8;
+	-moz-box-shadow:0px 0px 1px 2px #c8c8c8;
+	-webkit-box-shadow:0px 0px 1px 2px #c8c8c8;
 }
 
 div #headerBG {
 	width: 100%;
 	height: 40px;
-	background-color: #00ff00;
 }
 
 div #header-content {
@@ -41,7 +37,6 @@ div #logo {
 	width: 25%;
 	height: 100%;
 	float: left;
-	background-color: #aa00aa;
 }
 
 div #logo img {
@@ -53,15 +48,16 @@ div #search {
 	width: 50%;
 	height: 100%;
 	float: left;
-	background-color: #555555;
 }
 
 div #search-box {
 	height: 60%;
-	background: white;
+	background: #F5F5F5;
+	/* twitter border color */
+	border: 1px solid #e1e8ed;
 	border-radius: 100px;
 	padding-left: 10px;
-	margin-top: 8px;
+	margin-top: 7px;
 }
 
 #search-box-img {
@@ -72,26 +68,25 @@ div #search-box {
 }
 
 #search-box-input {
-	/*background-color: magenta;*/
 	border-radius: 100px;
-	width: 93%;
+	background-color: #F5F5F5;
+	/* js resize for x(vanish) */
+	width: 90%;
 	height: 100%;
 	outline: 0;
 	border: none;
 }
 
 
-/* */
+/* menu: action buttons */
 div #buttons {
 	float: right;
 	width: 25%;
 	height: 100%;
-	background-color: #0000aa;
 }
 
 div #buttons-inner {
 	float: right;
-	background-color: yellow;
 }
 
 div .actionButton {
@@ -105,24 +100,37 @@ div .actionButton img {
 	height: 100%;
 }
 
+div #pulldown-menu {
+	width: 100px;
+	height: 150px;
+	margin: 0px;
+	background-color: cyan;
+	top: 10px;
+}
+
+div #pulldown-menu ul {
+	padding: 10px;
+}
+
+div #pulldown-menu ul li {
+	list-style: none;
+}
 
 /* content area */
 
 div #content {
 	width: 100%;
-	height: 2000px;
+	height: 2000px; /* caution */
 	margin: 0 auto;
 }
 
 div #content-left {
-	background-color: #eeeeee;
 	float: left;
 	width: 20%;
 	height: 100%;
 }
 
 div #content-center {
-	background-color: #ddddee;
 	width: 60%;
 	height: 100%;
 	float: left;
@@ -131,7 +139,6 @@ div #content-center {
 }
 
 div #content-right {
-	background-color: #eeeeee;
 	width: 20%;
 	height: 100%;
 	float: right;
@@ -140,7 +147,6 @@ div #content-right {
 /* content */
 
 #post-box {
-	background-color: purple;
 	margin: 2% 1% 2% 1%;
 	height: 40px;
 	padding-left: 3%;
@@ -148,9 +154,11 @@ div #content-right {
 	border-radius: 2px;
 	
 	/* box-shadow */
-	box-shadow:0px 0px 3px 1px #505050;
-	-moz-box-shadow:0px 0px 3px 1px #505050;
-	-webkit-box-shadow:0px 0px 3px 1px #505050;
+	box-shadow: 0px 0px 3px 1px #C8C8C8;
+	-moz-box-shadow:0px 0px 3px 1px #C8C8C8;
+	-webkit-box-shadow:0px 0px 3px 1px #C8C8C8;
+	
+	/*box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/
 }
 
 #post-box-icon {
@@ -165,7 +173,7 @@ div #content-right {
 	height: 40%;
 	margin-left: 1%;
 	margin-top: 9px;
-	color: blue;
+	color: gray;
 	resize: none;
 	overflow: hidden;
 }
@@ -191,21 +199,17 @@ div #content-right {
 /* article */
 
 .post {
-	background-color: #bbbb00;
-	/* top right bottom left */
 	margin: 2% 1% 2% 1%;
 	border-radius: 2px;
 	
-	/* box-shadow http://www.bad-company.jp/box-shadow/ */
 	/* box-shadow */
-	box-shadow:0px 0px 3px 1px #505050;
-	-moz-box-shadow:0px 0px 3px 1px #505050;
-	-webkit-box-shadow:0px 0px 3px 1px #505050;
+	box-shadow:0px 0px 3px 1px #C8C8C8;
+	-moz-box-shadow:0px 0px 3px 1px #C8C8C8;
+	-webkit-box-shadow:0px 0px 3px 1px #C8C8C8;
 }
 
 /* */
 .post-header {
-	background-color: #ffff00;
 	height: 40px;
 	padding-left: 3%;
 	padding-right: 3%;
@@ -244,15 +248,12 @@ div #content-right {
 
 /* */
 .post-content {
-	background-color: #ffffff;
 	width: 100%;
 	padding: 0px;
 	vertical-align: bottom;
 }
 
 .post-content .post-text {
-	background-color: blue;
-	color: yellow;
 	padding: 3%;
 	margin: 0px;
 }
@@ -265,14 +266,12 @@ div #content-right {
 
 /* */
 .post-footer {
-	background-color: brown;
 	width: 100%;
-	height: 30px;
+	height: 40px;
 	border-radius: 0px 0px 2px 2px;
 }
 
 .post-footer .react-area {
-	background-color: yellow;
 	float: right;
 	height: 100%;
 	padding-right: 3%;
@@ -280,7 +279,6 @@ div #content-right {
 }
 
 .post-footer .react-area .react-box {
-	background-color: lightGray;
 	float: left;
 	height: 100%;
 	margin-left: 10px;
@@ -307,15 +305,10 @@ div #content-right {
 	margin-left: 5px;
 }
 
-.post-footer .react-area .reply-box {
-	background-color: magenta;
-}
-
 
 /* footer */
 
 footer #footer {
-	background-color: magenta;
 	padding-left: 10%;
 	padding-right: 10%;
 }
