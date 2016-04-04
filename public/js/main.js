@@ -7,16 +7,18 @@ window.onload = function() {
     resize();
     
     changePostTime("relative");
+
+    getStatus();
     
     setSearchListener();
     setPostListener();
     setImgListener();
     setReactListener();
-    getStatus();
+    
 };
 
 window.onscroll = function() {
-    // locateHeader();
+    //locateHeader();
 };
 
 window.onresize = function() {
@@ -150,8 +152,7 @@ function setSearchListener() {
 function changePostTime(mode) { // vanish someday & server side process
     if (mode === "relative") {
         var times = document.getElementsByClassName("post-time");
-        console.log(times);
-        
+
         for (var i = 0; i < times.length; i++) {
             var t = times[i].innerHTML.split("-");
             var year = Number(t[0]), month = Number(t[1]), date = Number(t[2]);
@@ -210,7 +211,6 @@ function setReactListener() {
     }
 }
 
-
 function setPostListener(){
     document.getElementById("post-box-textarea").addEventListener("focus", function() {
         console.log(this);
@@ -224,56 +224,34 @@ function setPostListener(){
     
 
     document.getElementById("post-button").addEventListener("click",function(){
-        var date = new Date();
+        var userName = "testUserName";
+        var userId = "userId0120";
         
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;    // month: 0, 1, ..
-        var day = date.getDate();
-        var hour = date.getHours();
-        var minute = date.getMinutes();
-        var second = date.getSeconds();
         
-        var postTime = year + "-" + month + "-" + day + "-" + hour + "-" + minute + "-" + second;
+        
+        
+        var time = new Date();
+        
+        var year = time.getFullYear();
+        var month = time.getMonth() + 1;    // month: 0, 1, ..
+        var date = time.getDate();
+        var hour = time.getHours();
+        var minute = time.getMinutes();
+        var second = time.getSeconds();
+        
+        var postTime = year + "-" + month + "-" + date + "-" + hour + "-" + minute + "-" + second;
+        
+        var text = document.getElementById("post-box-textarea").value;
+
+        var post = createStatus(userName, userId, postTime, text);
+        postStatus(userName, userId, postTime, text);
         
         var postArea = document.getElementById("post-area");
-        var post = heredoc({
-                postText : document.getElementById("post-box-textarea").value,
-                postTime : postTime
-            },function(){/*
-				<article class="post">
-					<header class="post-header">
-						<a href="index.html"><img src="./img/kotlin.png" class="post-user-icon" /></a>
-						<a href="index.html">
-							<p class="post-user-name">User Name</p>
-						</a>
-						<p class="post-user-id">@user_id_2016</p>
-						<p class="post-time">{@postTime}</p>
-					</header>
-					<div class="post-content">
-						<p class="post-text">{@postText}</p>
-					</div>
-					<footer class="post-footer">
-						<div class="react-area">
-							<div class="react-box react-reply-box">
-								<img src="./img/reply.png" class="react-img react-reply-img"/>
-								<p class="react-reply-num">100</p>
-							</div>
-							<div class="react-box react-share-box">
-								<img src="./img/share.png" class="react-img react-share-img"/>
-								<p class="react-share-num">200</p>
-							</div>
-							<div class="react-box react-like-box">
-								<img src="./img/like.png" class="react-img react-like-img"/>
-								<p class="react-like-num">300</p>
-							</div>
-						</div>
-					</footer>
-				</article>
-        */});
-        postArea.innerHTML = post + postArea.innerHTML;
-    })
-}
 
+        postArea.innerHTML = post + postArea.innerHTML;
+        
+    });
+}
 
 function heredoc(data,func){
     var _data = null, _func = null;
@@ -304,7 +282,7 @@ function heredoc(data,func){
     return _doc;
 }
 
-function get(url){
+/*function get(url){
     request
         .get(url)
         .query({})
@@ -312,9 +290,9 @@ function get(url){
             console.log(res.text);
             return res.text;
         });
-}
+}*/
 
-function post(url){
+/*function post(url){
     request
         .post(url)
         .send({name: name, text: text})
@@ -322,15 +300,16 @@ function post(url){
             console.log(res.body);
             
         });    
-}
+}*/
 
-function createStatus(postUserName, postUserId, postTime, postText){
-    var postArea = document.getElementById("post-area");
+function createStatus(postUserName, postUserId, postTime, postText, shared, liked){
     var status = heredoc({
             postUserName : postUserName,
             postUserId : postUserId,
             postText : postText,
-            postTime : postTime
+            postTime : postTime,
+            shared : shared,
+            liked : liked
         },function(){/*
 			<article class="post">
 				<header class="post-header">
@@ -352,11 +331,11 @@ function createStatus(postUserName, postUserId, postTime, postText){
 						</div>
 						<div class="react-box react-share-box">
 							<img src="./img/share.png" class="react-img react-share-img"/>
-							<p class="react-share-num">200</p>
+							<p class="react-share-num">{@shared}</p>
 						</div>
 						<div class="react-box react-like-box">
 							<img src="./img/like.png" class="react-img react-like-img"/>
-							<p class="react-like-num">300</p>
+							<p class="react-like-num">{@liked}</p>
 						</div>
 					</div>
 				</footer>
@@ -368,6 +347,7 @@ function createStatus(postUserName, postUserId, postTime, postText){
 function addStatuses(statuses){
         var postArea = document.getElementById("post-area");
         postArea.innerHTML = statuses + postArea.innerHTML;
+        setReactListener();
 }
 
 function getStatus(){
@@ -379,16 +359,30 @@ function getStatus(){
         var statuses = "";
         for(var index in originStatuses){
             var originStatus = originStatuses[index];
-            console.log(originStatus);
             var pattern = /([0-9]+)-([0-9][0-9])-([0-9][0-9])T([0-9][0-9]):([0-9][0-9]):([0-9][0-9]).*/;
             
             var matches = pattern.exec(originStatus.date);
             var tmpDate = new Date(Date.UTC(matches[1], matches[2], matches[3], matches[4], matches[5], matches[6]));
 
             var date = tmpDate.getFullYear() + "-" + tmpDate.getMonth() + "-" + tmpDate.getDate() + "-" + tmpDate.getHours() + "-" + tmpDate.getMinutes() + "-" + tmpDate.getSeconds();
-            var status = createStatus(originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text);
+            var status = createStatus(originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text, originStatus.shared.length, originStatus.liked.length);
             statuses = status + statuses;
         }
         addStatuses(statuses);
     });
+}
+
+function postStatus(postUserName, postUserId, postTime, postText){
+    var url = "https://grape-salmon2073.c9users.io/shimacchau";
+    request
+        .post(url)
+        .send({
+            userName : postUserName,
+            userId : postUserId,
+            time : postTime,
+            text : postText
+        })
+        .end(function(err, res){
+            console.log(err, res.text);
+        });
 }

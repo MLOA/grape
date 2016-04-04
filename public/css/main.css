@@ -312,3 +312,8 @@ footer #footer {
 	padding-left: 10%;
 	padding-right: 10%;
 }
+
+.remodal-bg.remodal-is-opened {
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
+}
