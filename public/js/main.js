@@ -379,8 +379,14 @@ function getStatus(){
         var statuses = "";
         for(var index in originStatuses){
             var originStatus = originStatuses[index];
-            console.log(originStatus)
-            var status = createStatus("test", originStatus.author_id, originStatus.date, originStatus.text);
+            console.log(originStatus);
+            var pattern = /([0-9]+)-([0-9][0-9])-([0-9][0-9])T([0-9][0-9]):([0-9][0-9]):([0-9][0-9]).*/;
+            
+            var matches = pattern.exec(originStatus.date);
+            var tmpDate = new Date(Date.UTC(matches[1], matches[2], matches[3], matches[4], matches[5], matches[6]));
+
+            var date = tmpDate.getFullYear() + "-" + tmpDate.getMonth() + "-" + tmpDate.getDate() + "-" + tmpDate.getHours() + "-" + tmpDate.getMinutes() + "-" + tmpDate.getSeconds();
+            var status = createStatus(originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text);
             statuses = status + statuses;
         }
         addStatuses(statuses);

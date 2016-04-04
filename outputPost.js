@@ -40,14 +40,24 @@ var Post = mongoose.model('Post', postSchema);
 
 function findtest(){
     var query = {};
-    Post.find({query}).populate('User').exec(function(err, docs) {
+    Post
+      .find({query})
+      .populate('author_id')
+      .populate('liked')
+      .populate('shared')
+      .exec(function(err, docs) {
         if(err) throw new Error(err);
         console.log(docs);
+        
         /*
-        console.log("ok");
-        for (var i=0, size=docs.length; i<size; ++i) {
-            console.log(docs[i]);
-        }*/
+        Post.populate(docs,{
+            path: 'liked',
+            model: 'User'
+        }, function(err, docs) {
+            if(err) throw new Error(err);
+            //console.log(docs);
+        });
+        */
         docs.forEach(function(element){
             //console.log(element);
             /*

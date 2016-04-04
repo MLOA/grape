@@ -46,22 +46,31 @@ var Post = mongoose.model('Post', postSchema);
 router.get('/', function(req, res, next) {
   //res.send('hoge with a resource');
     var query = {};
-    Post.find({query}).populate('User').exec(function(err, docs) {
+    Post
+      .find({query})
+      .populate('author_id')
+      .populate('liked')
+      .populate('shared')
+      .exec(function(err, docs) {
         if(err) throw new Error(err);
         //console.log(docs);
         res.json(docs);
+        
         /*
-        console.log("ok");
-        for (var i=0, size=docs.length; i<size; ++i) {
-            console.log(docs[i]);
-        }*/
+        Post.populate(docs,{
+            path: 'liked',
+            model: 'User'
+        }, function(err, docs) {
+            if(err) throw new Error(err);
+            //console.log(docs);
+        });
+        */
         docs.forEach(function(element){
             //console.log(element);
             /*
             for(var field in element._doc){
                 console.log( field + " : " + element._doc[field] );
             }*/
-        
         },this);
         
     });
