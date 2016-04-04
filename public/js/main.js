@@ -12,6 +12,7 @@ window.onload = function() {
     setPostListener();
     setImgListener();
     setReactListener();
+    getStatus();
 };
 
 window.onscroll = function() {
@@ -94,8 +95,8 @@ function setColorMode(mode){
         
     } else if (mode === "light") {
         tagBgColor("body", "#F5F5F5");
-        // idBgColor("header", "purple");
-        idBgColor("header", "white");
+        idBgColor("header", "purple");
+        // idBgColor("header", "white");
         idBgColor("post-box", "white");
         classBgColor("post", "white");
     }
@@ -309,6 +310,7 @@ function get(url){
         .query({})
         .end(function(err, res){
             console.log(res.text);
+            return res.text;
         });
 }
 
@@ -320,4 +322,67 @@ function post(url){
             console.log(res.body);
             
         });    
+}
+
+function createStatus(postUserName, postUserId, postTime, postText){
+    var postArea = document.getElementById("post-area");
+    var status = heredoc({
+            postUserName : postUserName,
+            postUserId : postUserId,
+            postText : postText,
+            postTime : postTime
+        },function(){/*
+			<article class="post">
+				<header class="post-header">
+					<a href="index.html"><img src="./img/kotlin.png" class="post-user-icon" /></a>
+					<a href="index.html">
+						<p class="post-user-name">{@postUserName}</p>
+					</a>
+					<p class="post-user-id">{@postUserId}</p>
+					<p class="post-time">{@postTime}</p>
+				</header>
+				<div class="post-content">
+					<p class="post-text">{@postText}</p>
+				</div>
+				<footer class="post-footer">
+					<div class="react-area">
+						<div class="react-box react-reply-box">
+							<img src="./img/reply.png" class="react-img react-reply-img"/>
+							<p class="react-reply-num">100</p>
+						</div>
+						<div class="react-box react-share-box">
+							<img src="./img/share.png" class="react-img react-share-img"/>
+							<p class="react-share-num">200</p>
+						</div>
+						<div class="react-box react-like-box">
+							<img src="./img/like.png" class="react-img react-like-img"/>
+							<p class="react-like-num">300</p>
+						</div>
+					</div>
+				</footer>
+			</article>
+    */});
+    return status;
+}
+
+function addStatuses(statuses){
+        var postArea = document.getElementById("post-area");
+        postArea.innerHTML = statuses + postArea.innerHTML;
+}
+
+function getStatus(){
+    request
+    .get("https://grape-salmon2073.c9users.io/hoge")
+    .query({})
+    .end(function(err, res){
+        var originStatuses = res.body;
+        var statuses = "";
+        for(var index in originStatuses){
+            var originStatus = originStatuses[index];
+            console.log(originStatus)
+            var status = createStatus("test", originStatus.author_id, originStatus.date, originStatus.text);
+            statuses = status + statuses;
+        }
+        addStatuses(statuses);
+    });
 }
