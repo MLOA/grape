@@ -21,12 +21,18 @@ var Post = require('./schema/post_model');
 
 router.post('/', function(req, res) {
   //res.render('index', { title: 'Expressにゃーーーん' });
-  res.send('POST request to the homepage');
+  var text = "";
+  if (req.body.text) {
+    // postデータはreq.body.xxxで受け取る
+    text = req.body.text;
+    insertPost(text);
+  }
+  res.send(text);
 });
 module.exports = router;
 
 
-function insertTest2(_inputText){
+function insertPost(_inputText){
     var insertPost = new Post();
     insertPost.author_id = "56fe9a62ff64b4f445e264f4";
     insertPost.text = _inputText;
