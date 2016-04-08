@@ -96,7 +96,7 @@ function findtest(){
         },this);
     });
 }
-//findtest();
+findtest();
 
 function postDel(_id){
     var targetId = _id;

@@ -2,45 +2,15 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-
-var con = mongoose.connect('mongodb://localhost:27017/ramen');
-var db = con.connection;
-
+var db = require("./dbConnect");
 db.on('error', console.error.bind(console, 'connection error:'));
-
 db.once('open', function(callback){
-   //console.log("mongo connect successfuly!"); 
+   //console.log("connect successfuly!"); 
 });
 
 //mongo
-var Schema = mongoose.Schema;
-var userSchema = new Schema({
-    user_id: String,
-    screen_name: String,
-    friend: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    follow: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    follower: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    post: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    like: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-    attribute: [String]
-    }, { _id: true }
-);
-
-var postSchema = new Schema({
-    date: { type: Date, default: Date.now },
-    author_id: { type: Schema.Types.ObjectId, ref: 'User' },
-    text: String,
-    fig: String,
-    liked: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    shared: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    reply_from: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-    reply_to: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
-    }, { _id: true }
-);
-
-var User = mongoose.model('User', userSchema);
-var Post = mongoose.model('Post', postSchema);
-
+var User = require("./schema/user_model");
+var Post = require('./schema/post_model');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -65,15 +35,9 @@ router.get('/', function(req, res, next) {
             //console.log(docs);
         });
         */
-        docs.forEach(function(element){
-            //console.log(element);
-            /*
-            for(var field in element._doc){
-                console.log( field + " : " + element._doc[field] );
-            }*/
-        },this);
-        
+        //mongoose.disconnect();
     });
+    
 });
 
 module.exports = router;
