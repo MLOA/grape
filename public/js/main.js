@@ -8,13 +8,10 @@ window.onload = function() {
     
     changePostTime("relative");
 
-    getStatus();
-    
     setSearchListener();
     setPostListener();
-    setImgListener();
-    setReactListener();
     
+    window.setInterval(getPosts, 500);
 };
 
 window.onscroll = function() {
@@ -53,7 +50,7 @@ function resize() {
         document.getElementById("content-left").style.width = leftSize;
         document.getElementById("content-center").style.width = centerSize;
         document.getElementById("content-right").style.width = rightSize;
-    };
+    }
     function resizeHeader(padSide) {
         var headerContent = document.getElementById("header-content");
         headerContent.style.paddingLeft = padSide;
@@ -98,7 +95,6 @@ function setColorMode(mode){
     } else if (mode === "light") {
         tagBgColor("body", "#F5F5F5");
         idBgColor("header", "purple");
-        // idBgColor("header", "white");
         idBgColor("post-box", "white");
         classBgColor("post", "white");
     }
@@ -213,96 +209,62 @@ function setReactListener() {
 
 function setPostListener(){
     document.getElementById("post-box-textarea").addEventListener("focus", function() {
-        console.log(this);
         document.getElementById("post-box").style.height = "200px";
-    })
+    });
     
     document.getElementById("post-box-textarea").addEventListener("blur", function() {
-        console.log(this);
         document.getElementById("post-box").style.height = "40px";
-    })
+    });
     
 
     document.getElementById("post-button").addEventListener("click",function(){
         var userName = "testUserName";
         var userId = "userId0120";
-        
-        
-        
-        
-        var time = new Date();
-        
-        var year = time.getFullYear();
-        var month = time.getMonth() + 1;    // month: 0, 1, ..
-        var date = time.getDate();
-        var hour = time.getHours();
-        var minute = time.getMinutes();
-        var second = time.getSeconds();
-        
-        var postTime = year + "-" + month + "-" + date + "-" + hour + "-" + minute + "-" + second;
-        
         var text = document.getElementById("post-box-textarea").value;
-
-        var post = createStatus(userName, userId, postTime, text);
-        postStatus(userName, userId, postTime, text);
-        
-        var postArea = document.getElementById("post-area");
-
-        postArea.innerHTML = post + postArea.innerHTML;
-        
+        submitPost(userName, userId, text);
     });
 }
 
-function heredoc(data,func){
-    var _data = null, _func = null;
-
-    // 初期化
-    if (typeof func === 'undefined') {
-        _func = data;
-        _data = {};
-    } else {
-        _func = func;
-        _data = data;
-    }
-
-    // functionでなければ処理をしない
-    if (typeof _func !== 'function') throw new Error(_func + " is not a function");
-    if (!(_data instanceof Object && !(_data instanceof Array))) throw new Error(_data + " is not a object");
-
-    // ヒアドキュメント本体を取得
-    var _doc = _func.toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
-
-    // dataを回して変数の置換
-    for (var _key in _data){
-        var _reg = new RegExp("\\{@"+_key+"\\}","g");
-        var replacement = _data[_key];
-        _doc = _doc.replace(_reg, replacement);
-    }
-
-    return _doc;
-}
-
-/*function get(url){
-    request
-        .get(url)
-        .query({})
-        .end(function(err, res){
-            console.log(res.text);
-            return res.text;
-        });
-}*/
-
-/*function post(url){
+function submitPost(postUserName, postUserId, postText){
+    var url = "https://grape-salmon2073.c9users.io/shimacchau";
     request
         .post(url)
-        .send({name: name, text: text})
+        .send({
+            userName : postUserName,
+            userId : postUserId,
+            text : postText
+        })
         .end(function(err, res){
-            console.log(res.body);
-            
-        });    
-}*/
+            console.log(err, res.text);
+        });
+}
 
-function createStatus(postUserName, postUserId, postTime, postText, shared, liked){
+function getPosts(){
+    request
+    .get("https://grape-salmon2073.c9users.io/hoge")
+    .query({})
+    .end(function(err, res){
+        var originStatuses = res.body;
+        var statuses = "";
+        for(var index in originStatuses){
+            var originStatus = originStatuses[index];
+            var pattern = /([0-9]+)-([0-9][0-9])-([0-9][0-9])T([0-9][0-9]):([0-9][0-9]):([0-9][0-9]).*/;
+            
+            var matches = pattern.exec(originStatus.date);
+            var tmpDate = new Date(Date.UTC(matches[1], matches[2], matches[3], matches[4], matches[5], matches[6]));
+
+            var date = tmpDate.getFullYear() + "-" + tmpDate.getMonth() + "-" + tmpDate.getDate() + "-" + tmpDate.getHours() + "-" + tmpDate.getMinutes() + "-" + tmpDate.getSeconds();
+            var status = createPostArticle(originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text, originStatus.shared.length, originStatus.liked.length);
+            statuses = status + statuses;
+        }
+        addPostArticles(statuses);
+    });
+    
+    setImgListener();
+    setReactListener();
+}
+
+function createPostArticle(postUserName, postUserId, postTime, postText, shared, liked){
     var status = heredoc({
             postUserName : postUserName,
             postUserId : postUserId,
@@ -344,45 +306,35 @@ function createStatus(postUserName, postUserId, postTime, postText, shared, like
     return status;
 }
 
-function addStatuses(statuses){
+function addPostArticles(statuses){
         var postArea = document.getElementById("post-area");
         postArea.innerHTML = statuses + postArea.innerHTML;
         setReactListener();
 }
 
-function getStatus(){
-    request
-    .get("https://grape-salmon2073.c9users.io/hoge")
-    .query({})
-    .end(function(err, res){
-        var originStatuses = res.body;
-        var statuses = "";
-        for(var index in originStatuses){
-            var originStatus = originStatuses[index];
-            var pattern = /([0-9]+)-([0-9][0-9])-([0-9][0-9])T([0-9][0-9]):([0-9][0-9]):([0-9][0-9]).*/;
-            
-            var matches = pattern.exec(originStatus.date);
-            var tmpDate = new Date(Date.UTC(matches[1], matches[2], matches[3], matches[4], matches[5], matches[6]));
+function heredoc(data,func){
+    var _data = null, _func = null;
 
-            var date = tmpDate.getFullYear() + "-" + tmpDate.getMonth() + "-" + tmpDate.getDate() + "-" + tmpDate.getHours() + "-" + tmpDate.getMinutes() + "-" + tmpDate.getSeconds();
-            var status = createStatus(originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text, originStatus.shared.length, originStatus.liked.length);
-            statuses = status + statuses;
-        }
-        addStatuses(statuses);
-    });
-}
+    // 初期化
+    if (typeof func === 'undefined') {
+        _func = data;
+        _data = {};
+    } else {
+        _func = func;
+        _data = data;
+    }
 
-function postStatus(postUserName, postUserId, postTime, postText){
-    var url = "https://grape-salmon2073.c9users.io/shimacchau";
-    request
-        .post(url)
-        .send({
-            userName : postUserName,
-            userId : postUserId,
-            time : postTime,
-            text : postText
-        })
-        .end(function(err, res){
-            console.log(err, res.text);
-        });
+
+    if (typeof _func !== 'function') throw new Error(_func + " is not a function");
+    if (!(_data instanceof Object && !(_data instanceof Array))) throw new Error(_data + " is not a object");
+
+    var _doc = _func.toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
+
+    for (var _key in _data){
+        var _reg = new RegExp("\\{@"+_key+"\\}","g");
+        var replacement = _data[_key];
+        _doc = _doc.replace(_reg, replacement);
+    }
+
+    return _doc;
 }
