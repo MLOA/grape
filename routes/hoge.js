@@ -14,28 +14,22 @@ var Post = require('./schema/post_model');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  //res.send('hoge with a resource');
     var query = {};
     Post
       .find({query})
+      //.limit(5)
       .populate('author_id')
       .populate('liked')
       .populate('shared')
       .exec(function(err, docs) {
         if(err) throw new Error(err);
-        //console.log(docs);
-        res.json(docs);
         
-        /*
-        Post.populate(docs,{
-            path: 'liked',
-            model: 'User'
-        }, function(err, docs) {
-            if(err) throw new Error(err);
-            //console.log(docs);
+        docs.sort(function(a,b){
+          if(Date.parse(a.date) < Date.parse(b.date)) return -1;
+          if(Date.parse(a.date) > Date.parse(b.date)) return 1;
+          return 0;
         });
-        */
-        //mongoose.disconnect();
+        res.json(docs);
     });
     
 });
