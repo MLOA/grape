@@ -6,37 +6,45 @@
 	<title>Grape index.html</title>
 	<link href="./img/ICO.ico" rel="icon">
 	<link rel="stylesheet" type="text/css" href="./css/main.css">
-	
+
 	<link rel="stylesheet" href="./remodal/remodal.css">
 	<link rel="stylesheet" href="./remodal/remodal-default-theme.css">
 
 	<script src="./js/jquery-1.12.2.min.js"></script>
 	<script src="./remodal/remodal.js"></script>
-	
+
 	<script src="./js/superagent.js"></script>
 	<script src="./js/main.js"></script>
-	
+
 	<script src="./js/myModal.js"></script>
 </head>
 
 <body>
-	<div class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
-	<button data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
-	<div>
-		<h2 id="modal1Title">Remodal</h2>
-		<p id="modal1Desc">p tag</p>
-	</div>
-	
-	<button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>
-	<button data-remodal-action="confirm" class="remodal-confirm">OK</button>
-	  
-	  	<div id="post-box">
-			<a href="index.html"><img src="./img/kotlin.png" id="post-box-icon"/></a>
-			<textarea id="post-box-textarea" rows="1" cols="40">what's up</textarea>
-			<button id="post-button">
-				<img src="./img/submit.jpg"/>
+	<div id="post-box" class="remodal" data-remodal-id="modal" role="dialog" aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+		<p>post by modal !!</p>
+		<button id="modal-close-button" data-remodal-action="close" class="remodal-close" aria-label="Close"></button>
+
+		<textarea id="post-box-textarea" placeholder="what's up"></textarea>
+		
+		<div id="post-box-buttons">
+			<button id="insert-picture" class="insert-button">
+				<img src="./img/picture.png" /></button>
+			<button id="insert-video" class="insert-button">
+				<img src="./img/video.png" />
 			</button>
+			
+			<div id="post-button-container">
+				<p id="post-text-num">140</p>
+				
+				<button id="post-button">
+					<img src="./img/submit.jpg" />
+					<p>post it !!</p>
+				</button>
+			</div>
 		</div>
+		
+		<!--<button data-remodal-action="cancel" class="remodal-cancel">Cancel</button>-->
+		<!--<button data-remodal-action="confirm" class="remodal-confirm">OK</button>-->
 	</div>
 
 	<div id="root" class="remodal-bg">
@@ -58,7 +66,7 @@
 						</div>
 						<div id="account" class="actionButton">
 							<a href="index.html"><img src="./img/kotlin.png" /></a>
-							
+
 							<div id="pulldown-menu" style="display: none;">
 								<ul>
 									<li>hell</li>
@@ -76,9 +84,9 @@
 				</div>
 			</div>
 		</header>
-		
+
 		<div id="headerBG"></div>
-		
+
 		<div id="content">
 			<div id="content-left" class="box"></div>
 
@@ -88,10 +96,11 @@
 
 			<div id="content-right" class="box"></div>
 		</div>
-		
+
 		<footer id="footer">
 			<p>All Rights</p>
 		</footer>
 	</div>
 </body>
+
 </html>

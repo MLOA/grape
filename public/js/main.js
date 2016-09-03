@@ -1,5 +1,6 @@
 var headerPos = 0, previous_scroll_pos = 0;
 var request = window.superagent;
+var userId = "userId0120";
 
 window.onload = function() {
     setColorMode("light");  // debug, light
@@ -11,7 +12,7 @@ window.onload = function() {
     setSearchListener();
     setPostListener();
     
-    window.setInterval(getPosts, 500);
+    window.setInterval(getPosts, 1000);
 };
 
 window.onscroll = function() {
@@ -81,6 +82,8 @@ function setColorMode(mode){
         idBgColor("content-right", "#eeeeee");
         
         idBgColor("post-box", "purple");
+        idBgColor("post-box-buttons", "yellow");
+        idBgColor("post-button-container", "pink");
         
         classBgColor("post", "white");
         classBgColor("post-header", "#ffff00");
@@ -184,53 +187,44 @@ function setReactListener() {
     
     for (var i = 0; i < replyBox.length; i++) {
         replyBox[i].addEventListener("click", function(event){
-            // console.log(event);
-            // console.log(this);
-            var str = this.childNodes[3].innerHTML; // p tag
-            var num = parseInt(str.trim(), 10);
-            this.childNodes[3].innerHTML = ++num;
+            var replyText = "にゃーん";
+            // console.log("replied");
+            // var str = this.childNodes[3].innerHTML; // p tag
+            // var num = parseInt(str.trim(), 10);
+            // this.childNodes[3].innerHTML = ++num;            
+            sendReply(this.childNodes[5].value, replyText);
         }, false);
         shareBox[i].addEventListener("click", function(event){
-            // console.log(event);
-            // console.log(this);
-            var str = this.childNodes[3].innerHTML; // p tag
-            var num = parseInt(str.trim(), 10);
-            this.childNodes[3].innerHTML = ++num;
+            // console.log("shared");
+            // var str = this.childNodes[3].innerHTML; // p tag
+            // var num = parseInt(str.trim(), 10);
+            // this.childNodes[3].innerHTML = ++num;            
+            sendShare(this.childNodes[5].value);
         }, false);
         likeBox[i].addEventListener("click", function(event){
-            // console.log(event);
-            // console.log(this);
-            var str = this.childNodes[3].innerHTML; // p tag
-            var num = parseInt(str.trim(), 10);
-            this.childNodes[3].innerHTML = ++num;
+            // console.log("liked");
+            // var str = this.childNodes[3].innerHTML; // p tag
+            // var num = parseInt(str.trim(), 10);
+            // this.childNodes[3].innerHTML = ++num;            
+            sendLike(this.childNodes[5].value);
         }, false);
     }
 }
 
 function setPostListener(){
-    document.getElementById("post-box-textarea").addEventListener("focus", function() {
-        document.getElementById("post-box").style.height = "200px";
-    });
-    
-    document.getElementById("post-box-textarea").addEventListener("blur", function() {
-        document.getElementById("post-box").style.height = "40px";
-    });
-    
-
     document.getElementById("post-button").addEventListener("click",function(){
-        var userName = "testUserName";
-        var userId = "userId0120";
         var text = document.getElementById("post-box-textarea").value;
-        submitPost(userName, userId, text);
+        sendPost(userId, text);
+        
+        document.getElementById("modal-close-button").click();
     });
 }
 
-function submitPost(postUserName, postUserId, postText){
+function sendPost(postUserId, postText){
     var url = "https://grape-salmon2073.c9users.io/shimacchau";
     request
         .post(url)
         .send({
-            userName : postUserName,
             userId : postUserId,
             text : postText
         })
@@ -254,22 +248,23 @@ function getPosts(){
             var tmpDate = new Date(Date.UTC(matches[1], matches[2], matches[3], matches[4], matches[5], matches[6]));
 
             var date = tmpDate.getFullYear() + "-" + tmpDate.getMonth() + "-" + tmpDate.getDate() + "-" + tmpDate.getHours() + "-" + tmpDate.getMinutes() + "-" + tmpDate.getSeconds();
-            var status = createPostArticle(originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text, originStatus.shared.length, originStatus.liked.length);
+            var status = createPostArticle(originStatus._id, originStatus.author_id.user_id, originStatus.author_id.screen_name, date, originStatus.text,originStatus.reply_from.length, originStatus.shared.length, originStatus.liked.length);
             statuses = status + statuses;
         }
         addPostArticles(statuses);
+        setReactListener();
+        setImgListener();
     });
-    
-    setImgListener();
-    setReactListener();
 }
 
-function createPostArticle(postUserName, postUserId, postTime, postText, shared, liked){
+function createPostArticle(postId, postUserName, postUserId, postTime, postText, replied, shared, liked){
     var status = heredoc({
+            postId : postId,
             postUserName : postUserName,
             postUserId : postUserId,
             postText : postText,
             postTime : postTime,
+            replied : replied,
             shared : shared,
             liked : liked
         },function(){/*
@@ -289,15 +284,18 @@ function createPostArticle(postUserName, postUserId, postTime, postText, shared,
 					<div class="react-area">
 						<div class="react-box react-reply-box">
 							<img src="./img/reply.png" class="react-img react-reply-img"/>
-							<p class="react-reply-num">100</p>
+							<p class="react-reply-num">{@replied}</p>
+							<input type="hidden" value="{@postId}">
 						</div>
 						<div class="react-box react-share-box">
 							<img src="./img/share.png" class="react-img react-share-img"/>
 							<p class="react-share-num">{@shared}</p>
+							<input type="hidden" value="{@postId}">
 						</div>
 						<div class="react-box react-like-box">
 							<img src="./img/like.png" class="react-img react-like-img"/>
 							<p class="react-like-num">{@liked}</p>
+							<input type="hidden" value="{@postId}">
 						</div>
 					</div>
 				</footer>
@@ -307,9 +305,8 @@ function createPostArticle(postUserName, postUserId, postTime, postText, shared,
 }
 
 function addPostArticles(statuses){
-        var postArea = document.getElementById("post-area");
-        postArea.innerHTML = statuses + postArea.innerHTML;
-        setReactListener();
+    var postArea = document.getElementById("post-area");
+    postArea.innerHTML = statuses;
 }
 
 function heredoc(data,func){
@@ -337,4 +334,44 @@ function heredoc(data,func){
     }
 
     return _doc;
+}
+
+function sendReply(postId, replyText){
+    var url = "https://grape-salmon2073.c9users.io/updateReply";
+    request
+        .post(url)
+        .send({
+            userId : userId,
+            postId : postId,
+            replyText : replyText
+        })
+        .end(function(err, res){
+            console.log(err, res.text);
+        });
+}
+
+function sendShare(postId){
+    var url = "https://grape-salmon2073.c9users.io/updateShare";
+    request
+        .post(url)
+        .send({
+            userId : userId,
+            postId : postId
+        })
+        .end(function(err, res){
+            console.log(err, res.text);
+        });
+}
+
+function sendLike(postId){
+    var url = "https://grape-salmon2073.c9users.io/updateLike";
+    request
+        .post(url)
+        .send({
+            userId : userId,
+            postId : postId
+        })
+        .end(function(err, res){
+            console.log(err, res.text);
+        });
 }

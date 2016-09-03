@@ -146,44 +146,72 @@ div #content-right {
 
 /* content */
 
-#post-box {
-	margin: 2% 1% 2% 1%;
-	height: 40px;
-	padding-left: 3%;
-	padding-right: 3%;
-	border-radius: 2px;
-	
-	/* box-shadow */
-	box-shadow: 0px 0px 3px 1px #C8C8C8;
-	-moz-box-shadow:0px 0px 3px 1px #C8C8C8;
-	-webkit-box-shadow:0px 0px 3px 1px #C8C8C8;
-	
-	/*box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);*/
+.remodal-bg.remodal-is-opened { /* dont change */
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
 }
 
-#post-box-icon {
-	float: left;
-	height: 40px;
-	border-radius: 50%;
+/* remodal -> remodal-default-theme.css */
+#post-box {
+	width: 500px;
+	height: 180px;
+	border-radius: 2px;
+	padding: 0;
 }
+
+#post-box p {
+	margin: 0;
+	height: 30px;
+	margin-top: 8px;
+}
+
 #post-box-textarea {
-	display: block;
-	float: left;
-	width: 80%;
+	width: 90%;
 	height: 40%;
-	margin-left: 1%;
-	margin-top: 9px;
-	color: gray;
 	resize: none;
 	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
 }
 
+#post-box-buttons {
+	margin: 0 auto; 
+	width: 90%;
+	height: 40px;
+}
+
+.insert-button {
+	width: 40px;
+	height: 100%;
+	margin-right: 20px;
+	float: left;
+	padding: 0px;
+}
+
+#insert-picture img {
+	width: 100%;
+	height: 100%;
+}
+
+#insert-video img {
+	width: 100%;
+	height: 100%;
+}
+
+#post-button-container {
+	height: 100%;
+	float: right;
+	padding: 0px;
+}
+
+#post-text-num {
+	float: left;
+}
 #post-button {
-	height: 20px;
-	width: 80px;
-	margin-left: 1%;
-	margin-top: 9px;
-	padding: 0;
+	height: 100%;
+	width: 120px;
+	float: left;
+	margin-left: 10px;
 }
 #post-button:hover {
 	background-color: pink;
@@ -193,6 +221,7 @@ div #content-right {
 #post-button img {
 	height: 100%;
 	width: auto;
+	float: left;
 }
 
 
@@ -311,9 +340,4 @@ div #content-right {
 footer #footer {
 	padding-left: 10%;
 	padding-right: 10%;
-}
-
-.remodal-bg.remodal-is-opened {
-	-webkit-filter: blur(3px);
-	filter: blur(3px);
 }
